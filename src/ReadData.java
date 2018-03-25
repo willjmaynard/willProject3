@@ -10,7 +10,8 @@ import java.util.Scanner;
 
 public class ReadData {
 	public static Scanner user;
-	//public static Crypto[] coins = new Crypto[2000];
+	static //public static Crypto[] coins = new Crypto[2000];
+	DoublyLinkedList<Crypto> LinkedCoins = new DoublyLinkedList<Crypto>(); //?
 	public static void main(String[] args) {
 
 
@@ -31,7 +32,7 @@ public class ReadData {
 			in = new Scanner(new File(readIn));
 			System.out.println("Please enter the name of the value you wish to sort the linked list by: ");
 			String choice = in.nextLine().toLowerCase();
-			DoublyLinkedList<Crypto> LinkedCoins = new DoublyLinkedList<Crypto>();
+			
 			String line = in.nextLine();
 			//System.out.println(line);
 			if (!line.contains("[")) {
@@ -45,7 +46,7 @@ public class ReadData {
 			while(!line.contains("]")) {
 				if(line.contains("{")) {
 					line = in.nextLine();
-					LinkedCoins.size =  new Crypto();
+					LinkedCoins.size =  new Crypto(); //NEED HELP
 					count++;
 					while(!line.contains("}")) {
 						String [] parts = line.split(":");
@@ -62,12 +63,12 @@ public class ReadData {
 						}
 						
 						Pair p = new Pair(parts[0],parts[1]);
-						LinkedCoins.add((Crypto) p);
+						LinkedCoins.add((Crypto) p); //NEED HELP
 						line = in.nextLine();
 						
 					}
 					
-					Pair p = new Pair("\t\t\"counts\"",new CreateCounts().create(LinkedCoins.size-1));
+					Pair p = new Pair("\t\t\"counts\"",new CreateCounts().create(LinkedCoins.get(count-1)));
 					LinkedCoins.add((Crypto) p);
 					
 					
@@ -120,7 +121,7 @@ public class ReadData {
             			myWriter.println("[");
             			for(int i = 0; i < count; i++) {
          
-            				myWriter.println(coins[i]);
+            				myWriter.println(LinkedCoins.get(i));
          
             				if(i==count-1) {
             					myWriter.println(",");
@@ -156,13 +157,13 @@ System.out.println("Please enter sym for Symbol search or nam for Name search: "
 			String Symbol = user.nextLine().toLowerCase();
 			for (int i = 0; i < count; i++) {
 				//System.out.println(coins[i].fields[2].value.toLowerCase().replace("\"", "").replaceAll(",", "").replaceAll(" ", ""));
-				if (Symbol.equals(coins[i].fields[2].value.toLowerCase().replace("\"", "").replaceAll(",", "").replaceAll(" ", ""))) {
-					System.out.println(coins[i].toString());
+				if (Symbol.equals(LinkedCoins.get(i).fields[2].value.toLowerCase().replace("\"", "").replaceAll(",", "").replaceAll(" ", ""))) {
+					System.out.println(LinkedCoins.get(i).toString());
 				  	System.out.println("Would you like to remove this coin? type y for yes or n for no");
 				  	String YN = user.nextLine().toLowerCase();
 				  	if(YN.equals("y")) {
-	            		coins[i]=null;
-	            		System.out.println("Coin Removed");
+				  		LinkedCoins.delete(LinkedCoins.get(i));
+				  		System.out.println("Coin Removed");
 				  	}else 
 				  		System.out.println("Coin Remains");
 				  		break;
@@ -179,16 +180,16 @@ System.out.println("Please enter sym for Symbol search or nam for Name search: "
 	        while (low <= high) {
 	            mid = (low + high) / 2;
 
-	            if (coins[mid].fields[1].value.replaceAll("\"", "").replaceAll(" ", "").replaceAll(",", "").toLowerCase().compareTo(Name) < 0) {
+	            if (LinkedCoins.get(mid).fields[1].value.replaceAll("\"", "").replaceAll(" ", "").replaceAll(",", "").toLowerCase().compareTo(Name) < 0) {
 	                low = mid + 1;
-	            } else if (coins[mid].fields[1].value.replaceAll("\"", "").replaceAll(" ", "").replaceAll(",", "").toLowerCase().compareTo(Name) > 0) {
+	            } else if (LinkedCoins.get(mid).fields[1].value.replaceAll("\"", "").replaceAll(" ", "").replaceAll(",", "").toLowerCase().compareTo(Name) > 0) {
 	                high = mid - 1;
 	            } else {
-	            	System.out.println(coins[mid].toString());
+	            	System.out.println(LinkedCoins.get(mid).toString());
 	            	System.out.println("Would you like to remove this coin? type y for yes or n for no");
 	            	String YN = user.nextLine().toLowerCase();
 	            	if(YN.equals("y")) {
-	            		coins[mid]=null;
+	            		LinkedCoins.delete(LinkedCoins.get(mid));
 	            		System.out.println("Coin Removed");
 	            	}else 
 	            		System.out.println("Coin Remains");
@@ -210,8 +211,8 @@ System.out.println("Please enter sym for Symbol search or nam for Name search: "
 			String Symbol = user.nextLine().toLowerCase();
 			for (int i = 0; i < count; i++) {
 				//System.out.println(coins[i].fields[2].value.toLowerCase().replace("\"", "").replaceAll(",", "").replaceAll(" ", ""));
-				if (Symbol.equals(coins[i].fields[2].value.toLowerCase().replace("\"", "").replaceAll(",", "").replaceAll(" ", ""))) {
-					System.out.println(coins[i].toString());
+				if (Symbol.equals(LinkedCoins.get(i).fields[2].value.toLowerCase().replace("\"", "").replaceAll(",", "").replaceAll(" ", ""))) {
+					System.out.println(LinkedCoins.get(i).toString());
 				}
 			}
 		}
@@ -225,12 +226,12 @@ System.out.println("Please enter sym for Symbol search or nam for Name search: "
 	        while (low <= high) {
 	            mid = (low + high) / 2;
 
-	            if (coins[mid].fields[1].value.replaceAll("\"", "").replaceAll(" ", "").replaceAll(",", "").toLowerCase().compareTo(Name) < 0) {
+	            if (LinkedCoins.get(mid).fields[1].value.replaceAll("\"", "").replaceAll(" ", "").replaceAll(",", "").toLowerCase().compareTo(Name) < 0) {
 	                low = mid + 1;
-	            } else if (coins[mid].fields[1].value.replaceAll("\"", "").replaceAll(" ", "").replaceAll(",", "").toLowerCase().compareTo(Name) > 0) {
+	            } else if (LinkedCoins.get(mid).fields[1].value.replaceAll("\"", "").replaceAll(" ", "").replaceAll(",", "").toLowerCase().compareTo(Name) > 0) {
 	                high = mid - 1;
 	            } else {
-	            	System.out.println(coins[mid].toString());
+	            	System.out.println(LinkedCoins.get(mid).toString());
 	            	break;
 	            }
 	        }
@@ -246,10 +247,10 @@ System.out.println("Please enter sym for Symbol search or nam for Name search: "
         Crypto temp; 
         for (int i = 0; i < count; i++) {
             for (int j = i + 1; j < count; j++){
-                if (coins[i].fields[0].value.compareTo(coins[j].fields[0].value)>0) {
-                    temp = coins[i];
-                    coins[i] = coins[j];
-                    coins[j] = temp;
+                if (LinkedCoins.get(i).fields[0].value.compareTo(LinkedCoins.get(j).fields[0].value)>0) {
+                    temp = LinkedCoins.get(i);
+                    LinkedCoins.get(i).;   //HLEP
+                    LinkedCoins.get(j) = temp; //Help
                 }
             }
         }
